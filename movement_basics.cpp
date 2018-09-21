@@ -5,14 +5,18 @@
 
 using namespace std;
 
+int bgColor = COLOR(0, 138, 197);
+
 int x=50,y=100;
 
 class Mario {
 public:
+    Mario() {
+        setbkcolor(bgColor);
+    }
     void moveRight() {
         while(true) {
             if(GetAsyncKeyState(VK_RIGHT)) {
-            cout<<"Right";
             cleardevice();
             circle(++x,y,50);
             }
@@ -22,7 +26,6 @@ public:
     void moveLeft() {
         while(true) {
             if(GetAsyncKeyState(VK_LEFT)) {
-            cout<<"Left";
             cleardevice();
             circle(--x,y,50);
             }
@@ -49,6 +52,18 @@ public:
 
 };
 
+class Brick {
+public:
+    Brick() {
+        //setcolor(BROWN);
+        while(true) {
+        setfillstyle(INTERLEAVE_FILL, RED);
+        bar(100,100,140,140);
+        }
+    }
+
+};
+
 int main() {
 
     //Getting the screen dimensions
@@ -59,17 +74,19 @@ int main() {
 
     int page=0;
 
+    Mario mario;
 
     circle(x,y,50);
-
-    Mario mario;
 
     thread t1(Mario::moveLeft,mario);
     thread t2(Mario::moveRight,mario);
     thread t3(Mario::jump,mario);
+   // thread t4(Mario::backgroundColor,mario);
 
-    t1.join();
+    Brick b1;
 
+    t3.join();
 
+    getch();
 
 }
