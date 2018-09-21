@@ -1,16 +1,7 @@
 #include<iostream>
 #include<graphics.h>
-#include<windows.h>
-#include<thread>
-
 using namespace std;
-
-int bgColor = COLOR(0, 138, 197);
-
-int x=50,y=100;
-
-
-class Brick{
+class brick{
 public:
  int x,y;
  void showBrick(){
@@ -29,7 +20,7 @@ line(x-10,y+10,x-10,y+20);
 line(x+10,y+10,x+10,y+20);
 line(x,y-10,x,y-20);
 }
-Brick(int a,int b){
+brick(int a,int b){
 x=a;
 y=b;}
 };
@@ -37,6 +28,9 @@ y=b;}
 class pipe{
 public:
     int x,y;
+    pipe(int a,int b){
+    x=a;
+    y=b;}
     void showMediumPipe(){
         setcolor(RGB(51,127,95));
         rectangle(x-40,y-80,x+40,y);
@@ -102,6 +96,8 @@ line(x-40,y-120+i,x+40,y-120+i);
     class clouds{
         public:
         int x;
+        clouds(int a){
+        x=a;}
     void showCloud(){
 setcolor(WHITE);
 setfillstyle(SOLID_FILL,WHITE);
@@ -115,12 +111,26 @@ sector(x+50,getmaxy()*0.25+10,0,360,30,30);
     class ground{
     public:
     int x;
+    ground(int a){
+    x=a;}
     void showground(){
     int y=getmaxy();
-setcolor(RGB(141,79,58));
+setcolor(RGB(199,109,59));
 rectangle(x-20,y-60,x+20,y);
 setfillstyle(SOLID_FILL,RGB(199,109,59));
-floodfill(x,y-10,RGB(141,79,58));
+floodfill(x,y-10,RGB(199,109,59));
+setcolor(BLACK);
+line(x-20,y-40,x,y-20);
+line(x,y-20,x,y);
+line(x,y-20,x+10,y-40);
+line(x+10,y-40,x+10,y-60);
+line(x+10,y-40,x+20,y-40);
+y=getmaxy()-60;
+x=x-30;
+setcolor(RGB(199,109,59));
+rectangle(x-20,y-60,x+20,y);
+setfillstyle(SOLID_FILL,RGB(199,109,59));
+floodfill(x,y-10,RGB(199,109,59));
 setcolor(BLACK);
 line(x-20,y-40,x,y-20);
 line(x,y-20,x,y);
@@ -132,8 +142,11 @@ line(x+10,y-40,x+20,y-40);
     class mountain{
 public :
     int x,y;
+    mountain(int a,int b){
+    x=a;
+    y=b;}
     void showMountain(){
-        setcolor(RGB(6,174,11));
+    setcolor(RGB(6,174,11));
 line(x-80,y,x,y-100);
 line(x,y-100,x+80,y);
 line(x-80,y,x+80,y);
@@ -146,72 +159,36 @@ setfillstyle(SOLID_FILL,RGB(6,70,11));
 floodfill(x-5,y-50,RGB(6,70,11));
 floodfill(x+5,y-70,RGB(6,70,11));
     }
+
     };
-    class Mario {
-public:
-    Mario() {
-        setbkcolor(bgColor);
-    }
-    void moveRight() {
-        while(true) {
-            if(GetAsyncKeyState(VK_RIGHT)) {
-            cleardevice();
-            circle(++x,y,50);
-            Brick b(30,40);
-            b.showBrick();
-            }
-            delay(3);
-        }
-    }
-    void moveLeft() {
-        while(true) {
-            if(GetAsyncKeyState(VK_LEFT)) {
-            cleardevice();
-            circle(--x,y,50);
-            }
-            delay(3);
-        }
-    }
-    void jump() {
-        while(true) {
-            if(GetAsyncKeyState(VK_SPACE)) {
-                for(int i=0; i<50;i++) {
-                    cleardevice();
-                    circle(x,--y,50);
-                    delay(3);
-                }
-                for(int i=0; i<50;i++) {
-                    cleardevice();
-                    circle(x,++y,50);
-                    delay(3);
-                }
-            }
-            delay(5);
-        }
-    }
-
-};
-int main() {
-
-    //Getting the screen dimensions
-    DWORD screenWidth = GetSystemMetrics(SM_CXSCREEN);
+int main(){
+ DWORD screenWidth = GetSystemMetrics(SM_CXSCREEN);
     DWORD screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
     initwindow(screenWidth,screenHeight,"",-3,-3);
 
-    int page=0;
-
-    Mario mario;
-
-    circle(x,y,50);
-
-    thread t1(Mario::moveLeft,mario);
-    thread t2(Mario::moveRight,mario);
-    thread t3(Mario::jump,mario);
-   // thread t4(Mario::backgroundColor,mario);
-
-
-
-    getch();
+setbkcolor(COLOR(0,138,197));
+for(int i=0;i<2500;i=i+40){
+    ground g(i);
+    g.showground();
 
 }
+pipe p1(500,getmaxy()-120);
+pipe p2(1000,getmaxy()-120);
+pipe p3 (750,getmaxy()-120);
+p3.showLargePipe();
+p1.showSmallPipe();
+p2.showMediumPipe();
+clouds s(200);
+clouds s2(700);
+s.showCloud();
+s2.showCloud();
+brick b1(100,500);
+brick b2(140,500);
+brick b3(140,500);
+b1.showBrick();
+b2.showBrick();
+b3.showBrick();
+
+getch();
+return 0;}
