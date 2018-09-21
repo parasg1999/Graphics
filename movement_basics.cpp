@@ -51,18 +51,27 @@ public:
     }
 
 };
-
-class Brick {
+class Brick{
 public:
-    Brick() {
-        //setcolor(BROWN);
-        while(true) {
-        setfillstyle(INTERLEAVE_FILL, RED);
-        bar(100,100,140,140);
-        }
-    }
-
+ int x,y;
+ void showBrick(int x,int y){
+setcolor(RGB(141,79,58));
+rectangle(x-20,y-20,x+20,y+20);
+setfillstyle(SOLID_FILL,RGB(141,79,58));
+floodfill(x,y,RGB(141,79,58));
+setcolor(BLACK);
+line(x-20,y-10,x+20,y-10);
+line(x-20,y,x+20,y);
+line(x-20,y+10,x+20,y+10);
+line(x-10,y-10,x-10,y);
+line(x+10,y-10,x+10,y);
+line(x,y,x,y+10);
+line(x-10,y+10,x-10,y+20);
+line(x+10,y+10,x+10,y+20);
+line(x,y-10,x,y-20);
+}
 };
+
 
 int main() {
 
@@ -84,7 +93,7 @@ int main() {
    // thread t4(Mario::backgroundColor,mario);
 
     Brick b1;
-
+    b1.showBrick(45,89);
     t3.join();
 
     getch();
